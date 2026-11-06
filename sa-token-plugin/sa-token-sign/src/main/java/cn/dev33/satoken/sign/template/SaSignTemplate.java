@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package cn.dev33.satoken.sign.template;
 
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.model.SaRequest;
-import cn.dev33.satoken.error.SaErrorCode;
 import cn.dev33.satoken.sign.error.SaSignErrorCode;
 import cn.dev33.satoken.sign.exception.SaSignException;
 import cn.dev33.satoken.sign.SaSignManager;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import java.util.Map;
  * 对 SaRequest 包装类的实现（Reactor 响应式编程版）
  *
  * @author click33
- * @since 1.19.0
+ * @since 1.34.0
  */
 public class SaRequestForReactor implements SaRequest {
 
@@ -136,11 +136,11 @@ public class SaRequestForReactor implements SaRequest {
 		return value;
 
 		// 此种写法无法获取到最后一个 Cookie，WebFlux 底层代码应该是有bug，前端提交多个同名Cookie时只能解析出第一个来
-//		List<HttpCookie> cookies = request.getCookies().get(name);
-//		if(cookies.isEmpty()) {
-//			return null;
-//		}
-//		return cookies.get(cookies.size() - 1).getValue();
+		//		List<HttpCookie> cookies = request.getCookies().get(name);
+		//		if(cookies.isEmpty()) {
+		//			return null;
+		//		}
+		//		return cookies.get(cookies.size() - 1).getValue();
 	}
 
 	/**

@@ -20,15 +20,33 @@
     <modules>
         <module>sa-token-servlet</module>
         <module>sa-token-jakarta-servlet</module>
-        <module>sa-token-spring-boot-autoconfig</module>
+        <module>sa-token-spring-boot-webmvc-reactor-v2v3v4-common</module>
+        <module>sa-token-spring-boot-reactor-v3v4-common</module>
         <module>sa-token-spring-boot-starter</module>
+        <module>sa-token-spring-boot-webmvc-v3v4-common</module>
         <module>sa-token-spring-boot3-starter</module>
+        <module>sa-token-spring-boot4-starter</module>
         <module>sa-token-reactor-spring-boot-starter</module>
         <module>sa-token-reactor-spring-boot3-starter</module>
+        <module>sa-token-reactor-spring-boot4-starter</module>
         <module>sa-token-solon-plugin</module>
         <module>sa-token-jboot-plugin</module>
         <module>sa-token-jfinal-plugin</module>
         <module>sa-token-loveqq-boot-starter</module>
     </modules>
+
+    <dependencies>
+        <!--
+            子模块单测默认带上 core 的 test-jar（@SaTokenTest / SaTokenExtension）。
+            写在 plugin / starter 聚合模块，避免塞进 sa-token-parent 和 core 形成 reactor 环。
+        -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

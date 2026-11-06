@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import cn.dev33.satoken.context.SaTokenContextForThreadLocal;
  * <h2> 此为低版本(<1.42.0) 的上下文处理方案，仅做留档，如无必要请勿使用 </h2>
  *
  * Sa-Token 上下文处理器 [ Spring Reactor 版本实现 ] ，基于 SaTokenContextForThreadLocal 定制
- * 
+ *
  * @author click33
  * @since 1.33.0
  */

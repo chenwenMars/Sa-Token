@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package cn.dev33.satoken.jfinal;
 
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.redis.serializer.ISerializer;
-import com.jfinal.plugin.redis.serializer.JdkSerializer;
 import redis.clients.jedis.util.SafeEncoder;
 
 import java.io.ByteArrayInputStream;
@@ -27,7 +26,7 @@ import java.io.ObjectOutputStream;
 
 public class SaJdkSerializer implements ISerializer {
 
-    public static final ISerializer me = new JdkSerializer();
+    public static final ISerializer me = new SaJdkSerializer();
 
     public byte[] keyToBytes(String key) {
         return SafeEncoder.encode(key);

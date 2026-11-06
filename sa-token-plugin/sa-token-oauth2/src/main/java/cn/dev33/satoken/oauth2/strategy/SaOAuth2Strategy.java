@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -177,7 +177,7 @@ public final class SaOAuth2Strategy {
 	 * 移除一个 grant_type 处理器
 	 */
 	public void removeGrantTypeHandler(String scope) {
-		scopeHandlerMap.remove(scope);
+		grantTypeHandlerMap.remove(scope);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -548,7 +548,7 @@ public class StpUtil {
 	 * @param tokenValue token
 	 * @return 账号id
 	 */
-	public Object getLoginIdByTokenNotThinkFreeze(String tokenValue) {
+	public static Object getLoginIdByTokenNotThinkFreeze(String tokenValue) {
 		return stpLogic.getLoginIdByTokenNotThinkFreeze(tokenValue);
 	}
 
@@ -737,7 +737,7 @@ public class StpUtil {
  	}
 
 	/**
-	 * 对当前 token 的 timeout 值进行续期
+	 * 重置当前 token 的 timeout 有效期
 	 *
 	 * @param timeout 要修改成为的有效时间 (单位: 秒)
 	 */
@@ -746,7 +746,7 @@ public class StpUtil {
  	}
 
 	/**
-	 * 对指定 token 的 timeout 值进行续期
+	 * 重置指定 token 的 timeout 有效期
 	 *
 	 * @param tokenValue 指定 token
 	 * @param timeout 要修改成为的有效时间 (单位: 秒，填 -1 代表要续为永久有效)

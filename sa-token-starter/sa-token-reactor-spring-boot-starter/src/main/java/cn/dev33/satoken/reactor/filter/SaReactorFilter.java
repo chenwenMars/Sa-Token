@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,23 +36,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 全局鉴权过滤器 (基于 Reactor)
+ * Reactor 全局鉴权过滤器
  * <p>
  *     默认优先级为 -100，尽量保证在其它过滤器之前执行
  * </p>
  *
  * @author click33
- * @since 1.19.0
+ * @since 1.34.0
  */
 @Order(SaTokenConsts.ASSEMBLY_ORDER)
 public class SaReactorFilter implements SaFilter, WebFilter {
-
-	/*
-	 * 三种 Filter ：
-	 * 	WebFilter：		Spring WebFlux 的过滤器，用于拦截 Web 请求
-	 * 	GlobalFilter：	Spring Cloud Gateway 的全局过滤器，用于拦截 Gateway 请求
-	 * 	GatewayFilter：	Spring Cloud Gateway 的局部过滤器，用于拦截 Gateway 请求
-	 */
 
 	// ------------------------ 设置此过滤器 拦截 & 放行 的路由 
 
@@ -129,13 +122,12 @@ public class SaReactorFilter implements SaFilter, WebFilter {
 		return this;
 	}
 
-	
 	// ------------------------ filter
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 
-		// ---------- 全局认证处理 
+		// ---------- 全局认证处理
 		try {
 			SaReactorSyncHolder.setContext(exchange);
 			beforeAuth.run(null);
@@ -154,5 +146,11 @@ public class SaReactorFilter implements SaFilter, WebFilter {
 
 		return chain.filter(exchange);
 	}
-
 }
+
+/*
+ * 三种 Filter ：
+ * 	WebFilter：		Spring WebFlux 的过滤器，用于拦截 Web 请求
+ * 	GlobalFilter：	Spring Cloud Gateway 的全局过滤器，用于拦截 Gateway 请求
+ * 	GatewayFilter：	Spring Cloud Gateway 的局部过滤器，用于拦截 Gateway 请求
+ */

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package cn.dev33.satoken.context.grpc.interceptor;
 
 import cn.dev33.satoken.SaManager;
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.context.grpc.constants.GrpcContextConstants;
 import cn.dev33.satoken.context.grpc.util.SaTokenContextGrpcUtil;
 import cn.dev33.satoken.same.SaSameUtil;
@@ -34,10 +35,8 @@ import net.devh.boot.grpc.server.interceptor.GrpcGlobalServerInterceptor;
 public class SaTokenGrpcServerInterceptor implements ServerInterceptor {
     @Override
     public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> call, Metadata headers, ServerCallHandler<ReqT, RespT> next) {
-        try{
-            // 初始化上下文
-            SaTokenContextGrpcUtil.setContext();
-
+        SaTokenContextGrpcUtil.setContext();
+        try {
             // RPC 调用鉴权
             if (SaManager.getConfig().getCheckSameToken()) {
                 String sameToken = headers.get(GrpcContextConstants.SA_SAME_TOKEN);
@@ -46,7 +45,7 @@ public class SaTokenGrpcServerInterceptor implements ServerInterceptor {
             String tokenFromClient = headers.get(GrpcContextConstants.SA_JUST_CREATED_NOT_PREFIX);
             StpUtil.setTokenValue(tokenFromClient);
 
-            return next.startCall(new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(call) {
+            ServerCall.Listener<ReqT> listener = next.startCall(new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(call) {
                 /**
                  * 结束响应时，若本服务生成了新token，将其传回客户端
                  */
@@ -59,9 +58,54 @@ public class SaTokenGrpcServerInterceptor implements ServerInterceptor {
                     super.close(status, responseHeaders);
                 }
             }, headers);
-        }finally {
-            // 清除上下文
+            return new ForwardingServerCallListener.SimpleForwardingServerCallListener<ReqT>(listener) {
+                private void bindContext() {
+                    if (!SaHolder.getContext().isValid()) {
+                        SaTokenContextGrpcUtil.setContext();
+                    }
+                }
+
+                @Override
+                public void onMessage(ReqT message) {
+                    bindContext();
+                    super.onMessage(message);
+                }
+
+                @Override
+                public void onHalfClose() {
+                    bindContext();
+                    super.onHalfClose();
+                }
+
+                @Override
+                public void onReady() {
+                    bindContext();
+                    super.onReady();
+                }
+
+                @Override
+                public void onCancel() {
+                    try {
+                        bindContext();
+                        super.onCancel();
+                    } finally {
+                        SaTokenContextGrpcUtil.clearContext();
+                    }
+                }
+
+                @Override
+                public void onComplete() {
+                    try {
+                        bindContext();
+                        super.onComplete();
+                    } finally {
+                        SaTokenContextGrpcUtil.clearContext();
+                    }
+                }
+            };
+        } catch (RuntimeException e) {
             SaTokenContextGrpcUtil.clearContext();
+            throw e;
         }
     }
 }

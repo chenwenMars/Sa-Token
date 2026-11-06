@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class SaTokenConsts {
 	/**
 	 * Sa-Token 当前版本号 
 	 */
-	public static final String VERSION_NO = "v1.44.0";
+	public static final String VERSION_NO = "v1.46.0";
 
 	/**
 	 * Sa-Token 开源地址 Gitee 
@@ -51,7 +51,7 @@ public class SaTokenConsts {
 	/**
 	 * Sa-Token 开发文档地址 
 	 */
-	public static final String DEV_DOC_URL = "https://sa-token.cc";
+	public static final String DEV_DOC_URL = "https://sa-token.com";
 	
 	
 	// ------------------ 常量 key 标记

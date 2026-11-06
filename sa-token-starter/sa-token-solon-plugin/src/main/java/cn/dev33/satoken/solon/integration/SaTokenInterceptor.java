@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import cn.dev33.satoken.strategy.SaAnnotationStrategy;
 import org.noear.solon.core.handle.*;
 import org.noear.solon.core.route.RouterInterceptor;
 import org.noear.solon.core.route.RouterInterceptorChain;
-import org.noear.solon.core.route.RoutingTable;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -197,9 +196,7 @@ public class SaTokenInterceptor implements SaFilter, RouterInterceptor {
 			if (mainHandler instanceof Gateway) {
 				//支持网关处理
 				Gateway gateway = (Gateway) mainHandler;
-				RoutingTable<Handler> mainRouting = gateway.getMainRouting();
-				MethodType method = MethodTypeUtil.valueOf(ctx.method());
-				mainHandler = mainRouting.matchOne(ctx.pathNew(), method);
+				mainHandler = gateway.find(ctx);
 			}
 
 			Action action = (mainHandler instanceof Action ? (Action) mainHandler : null);

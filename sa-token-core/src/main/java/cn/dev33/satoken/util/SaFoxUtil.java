@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,11 @@ import cn.dev33.satoken.exception.SaTokenException;
 import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -38,6 +41,9 @@ import java.util.concurrent.ThreadLocalRandom;
  * @since 1.18.0
  */
 public class SaFoxUtil {
+
+	/** 安全敏感随机串、验证码等使用 CSPRNG（线程安全，可静态共享） */
+	private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
 	private SaFoxUtil() {
 	}
@@ -68,9 +74,9 @@ public class SaFoxUtil {
 	 */
 	public static String getRandomString(int length) {
 		String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(length);
 		for (int i = 0; i < length; i++) {
-			int number = ThreadLocalRandom.current().nextInt(62);
+			int number = SECURE_RANDOM.nextInt(62);
 			sb.append(str.charAt(number));
 		}
 		return sb.toString();
@@ -84,7 +90,7 @@ public class SaFoxUtil {
 	 * @return /
 	 */
 	public static int getRandomNumber(int min, int max) {
-		return ThreadLocalRandom.current().nextInt(min, max + 1);
+		return SECURE_RANDOM.nextInt(max - min + 1) + min;
 	}
 
 	/**
@@ -557,20 +563,56 @@ public class SaFoxUtil {
 	}
 
 	/**
-	 * 验证URL的正则表达式
+	 * 验证URL的正则表达式（历史字段；{@link #isUrl(String)} 已改用 URI 解析，含 IPv6 方括号地址）
 	 */
-	public static String URL_REGEX = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+	public static String URL_REGEX = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;\\[\\]]+[-A-Za-z0-9+&@#/%=~_|\\[\\]]";
 
 	/**
-	 * 使用正则表达式判断一个字符串是否为URL
+	 * 判断一个字符串是否为 URL（支持 IPv6 方括号地址，如 {@code http://[::1]:9003/path}）
 	 * @param str 字符串
-	 * @return 拼接后的url字符串
+	 * @return /
 	 */
 	public static boolean isUrl(String str) {
 		if(isEmpty(str)) {
 			return false;
 		}
-        return str.toLowerCase().matches(URL_REGEX);
+		String lower = str.toLowerCase();
+		if( ! (lower.startsWith("http://") || lower.startsWith("https://")
+				|| lower.startsWith("ftp://") || lower.startsWith("file://")) ) {
+			return false;
+		}
+		try {
+			URI uri = new URI(str);
+			String scheme = uri.getScheme();
+			if(scheme == null) {
+				return false;
+			}
+			switch (scheme.toLowerCase()) {
+				case "http":
+				case "https":
+				case "ftp":
+					if(uri.getHost() == null || uri.getHost().isEmpty()) {
+						return false;
+					}
+					// 未使用方括号的裸 IPv6（authority 中含多个冒号）按 RFC 3986 视为非法
+					String authority = uri.getAuthority();
+					if(authority != null && !authority.contains("[")
+							&& authority.chars().filter(ch -> ch == ':').count() > 1) {
+						return false;
+					}
+					// 与历史正则行为一致：末尾为逗号视为非法
+					if(str.endsWith(",")) {
+						return false;
+					}
+					return true;
+				case "file":
+					return true;
+				default:
+					return false;
+			}
+		} catch (URISyntaxException e) {
+			return false;
+		}
 	}
 
 	/**
@@ -597,6 +639,45 @@ public class SaFoxUtil {
 		} catch (UnsupportedEncodingException e) {
 			throw new SaTokenException(e).setCode(SaErrorCode.CODE_12104);
 		}
+	}
+
+	/**
+	 * 是否为整段编码后的 http(s) 绝对地址（开头为 {@code http%3A%2F%2F} / {@code https%3A%2F%2F}）
+	 * @param url see note
+	 * @return /
+	 */
+	public static boolean isEncodedUrl(String url) {
+		if(isEmpty(url)) {
+			return false;
+		}
+		String lower = url.toLowerCase();
+		return lower.startsWith("http%3a%2f%2f") || lower.startsWith("https%3a%2f%2f");
+	}
+
+	/**
+	 * 若整段是编码后的 http(s) 绝对地址则解码一次，否则原样返回。
+	 * 避免把明文 URL 里 query 的编码值解坏。
+	 * @param url see note
+	 * @return see note
+	 */
+	public static String decoderUrlIfEncoded(String url) {
+		if(isEncodedUrl(url)) {
+			return decoderUrl(url);
+		}
+		return url;
+	}
+
+	/**
+	 * 若尚未整段编码则编码一次，否则原样返回。
+	 * 避免对已编码的 http(s) 绝对地址二次编码。
+	 * @param url see note
+	 * @return see note
+	 */
+	public static String encodeUrlIfNotEncoded(String url) {
+		if(isEmpty(url) || isEncodedUrl(url)) {
+			return url;
+		}
+		return encodeUrl(url);
 	}
 
 	/**

@@ -10,7 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>sa-token-okhttps</name>
     <artifactId>sa-token-okhttps</artifactId>
+    <description>sa-token integrate OkHttps</description>
 
     <dependencies>
         <dependency>
@@ -20,6 +22,13 @@
         <dependency>
             <groupId>cn.zhxu</groupId>
             <artifactId>okhttps</artifactId>
+        </dependency>
+
+        <!-- 测试：SaHttpTemplate 公共测试基类（本地 HttpServer） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-http-test-common</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

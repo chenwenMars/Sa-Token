@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package cn.dev33.satoken.loveqq.boot.interceptor;
 
 import cn.dev33.satoken.context.model.SaTokenContextModelBox;
 import cn.dev33.satoken.exception.BackResultException;
+import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.exception.StopMatchException;
 import cn.dev33.satoken.fun.SaParamFunction;
 import cn.dev33.satoken.loveqq.boot.utils.SaTokenContextUtil;
@@ -25,7 +26,8 @@ import cn.dev33.satoken.strategy.SaAnnotationStrategy;
 import com.kfyty.loveqq.framework.web.core.http.ServerRequest;
 import com.kfyty.loveqq.framework.web.core.http.ServerResponse;
 import com.kfyty.loveqq.framework.web.core.interceptor.HandlerInterceptor;
-import com.kfyty.loveqq.framework.web.core.mapping.MethodMapping;
+import com.kfyty.loveqq.framework.web.core.route.HandlerMethodRoute;
+import com.kfyty.loveqq.framework.web.core.route.Route;
 
 import java.lang.reflect.Method;
 
@@ -110,15 +112,15 @@ public class SaInterceptor implements HandlerInterceptor {
      * 每次请求之前触发的方法
      */
     @Override
-    public boolean preHandle(ServerRequest request, ServerResponse response, MethodMapping handler) {
+    public boolean preHandle(ServerRequest request, ServerResponse response, Route handler) {
         SaTokenContextModelBox prev = SaTokenContextUtil.setContext(request, response);
         try {
             // 前置函数：在注解鉴权之前执行
             beforeAuth.run(handler);
 
             // 这里必须确保 handler 是 HandlerMethod 类型时，才能进行注解鉴权
-            if (isAnnotation) {
-                Method method = handler.getMappingMethod();
+            if (isAnnotation && handler instanceof HandlerMethodRoute) {
+                Method method = ((HandlerMethodRoute) handler).getMappedMethod();
                 SaAnnotationStrategy.instance.checkMethodAnnotation.accept(method);
             }
 
@@ -127,6 +129,9 @@ public class SaInterceptor implements HandlerInterceptor {
         } catch (StopMatchException e) {
             // StopMatchException 异常代表：停止匹配，进入Controller
         } catch (BackResultException e) {
+            SaTokenOperateUtil.writeResult(response, e.getMessage());
+            return false;
+        } catch (SaTokenException e) {
             SaTokenOperateUtil.writeResult(response, e.getMessage());
             return false;
         } finally {

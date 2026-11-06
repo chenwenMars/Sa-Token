@@ -10,7 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>sa-token-snack3</name>
     <artifactId>sa-token-snack3</artifactId>
+    <description>sa-token integrate Snack3</description>
 
     <dependencies>
         <dependency>
@@ -20,6 +22,11 @@
         <dependency>
             <groupId>org.noear</groupId>
             <artifactId>snack3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-json-test-common</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

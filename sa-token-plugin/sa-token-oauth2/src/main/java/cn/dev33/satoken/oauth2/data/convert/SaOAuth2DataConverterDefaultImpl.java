@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ public class SaOAuth2DataConverterDefaultImpl implements SaOAuth2DataConverter, 
         at.clientId = ra.clientId;
         at.loginId = ra.loginId;
         at.scopes = ra.scopes;
-        at.tokenType = SaOAuth2Consts.TokenType.bearer;
+        at.tokenType = SaOAuth2Consts.TokenType.Bearer;
         at.expiresTime = ttlToExpireTime(accessTokenTimeout);
         at.extraData = new LinkedHashMap<>();
         return at;
@@ -120,7 +120,7 @@ public class SaOAuth2DataConverterDefaultImpl implements SaOAuth2DataConverter, 
         at.clientId = cm.clientId;
         at.loginId = cm.loginId;
         at.scopes = cm.scopes;
-        at.tokenType = SaOAuth2Consts.TokenType.bearer;
+        at.tokenType = SaOAuth2Consts.TokenType.Bearer;
         at.grantType = GrantType.authorization_code;
         at.expiresTime = ttlToExpireTime(accessTokenTimeout);
         at.extraData = new LinkedHashMap<>();
@@ -153,7 +153,7 @@ public class SaOAuth2DataConverterDefaultImpl implements SaOAuth2DataConverter, 
         at.clientId = rt.clientId;
         at.loginId = rt.loginId;
         at.scopes = rt.scopes;
-        at.tokenType = SaOAuth2Consts.TokenType.bearer;
+        at.tokenType = SaOAuth2Consts.TokenType.Bearer;
         at.grantType = GrantType.refresh_token;
         at.extraData = new LinkedHashMap<>(rt.extraData);
         at.expiresTime = ttlToExpireTime(accessTokenTimeout);
@@ -189,7 +189,7 @@ public class SaOAuth2DataConverterDefaultImpl implements SaOAuth2DataConverter, 
         ct.clientToken = clientTokenValue;
         ct.clientId = clientModel.getClientId();
         ct.scopes = scopes;
-        ct.tokenType = SaOAuth2Consts.TokenType.bearer;
+        ct.tokenType = SaOAuth2Consts.TokenType.Bearer;
         ct.expiresTime = ttlToExpireTime(clientModel.getClientTokenTimeout());
         ct.grantType = GrantType.client_credentials;
         ct.extraData = new LinkedHashMap<>();

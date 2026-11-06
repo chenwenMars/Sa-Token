@@ -11,6 +11,11 @@
 	<modules>
 		<module>sa-token-demo-alone-redis</module>
 		<module>sa-token-demo-alone-redis-cluster</module>
+		<module>sa-token-demo-alone-redis-sb4</module>
+		<module>sa-token-demo-alone-redisson</module>
+		<module>sa-token-demo-alone-redisson-cluster</module>
+		<module>sa-token-demo-alone-redisson-sb3</module>
+		<module>sa-token-demo-alone-redisson-sb4</module>
 		<module>sa-token-demo-apikey</module>
 		<module>sa-token-demo-async</module>
 		<module>sa-token-demo-beetl</module>
@@ -23,8 +28,10 @@
 		<module>sa-token-demo-dubbo/sa-token-demo-dubbo3-provider</module>
 		<module>sa-token-demo-dubbo/sa-token-demo-dubbo3-consumer</module>
 		<module>sa-token-demo-freemarker</module>
+		<module>sa-token-demo-first-run</module>
 <!--		<module>sa-token-demo-grpc</module>-->
 		<module>sa-token-demo-hutool-timed-cache</module>
+		<module>sa-token-demo-jfinal</module>
 		<module>sa-token-demo-jwt</module>
 		<module>sa-token-demo-oauth2/sa-token-demo-oauth2-server</module>
 		<module>sa-token-demo-oauth2/sa-token-demo-oauth2-client</module>
@@ -35,6 +42,7 @@
 		<module>sa-token-demo-solon-redisson</module>
 		<module>sa-token-demo-springboot</module>
 		<module>sa-token-demo-springboot3-redis</module>
+		<module>sa-token-demo-springboot4-redis</module>
 		<module>sa-token-demo-springboot-low-version</module>
 		<module>sa-token-demo-springboot-redis</module>
 		<module>sa-token-demo-springboot-redisson</module>
@@ -44,6 +52,7 @@
 		<module>sa-token-demo-sso/sa-token-demo-sso1-client</module>
 		<module>sa-token-demo-sso/sa-token-demo-sso2-client</module>
 		<module>sa-token-demo-sso/sa-token-demo-sso3-client</module>
+		<module>sa-token-demo-sso/sa-token-demo-sso3-client--sb4</module>
 		<module>sa-token-demo-sso/sa-token-demo-sso3-client-nosdk</module>
 		<module>sa-token-demo-sso/sa-token-demo-sso3-client-resdk</module>
 		<module>sa-token-demo-sso/sa-token-demo-sso3-client-anon</module>
@@ -55,6 +64,10 @@
 		<module>sa-token-demo-thymeleaf</module>
 		<module>sa-token-demo-webflux</module>
 		<module>sa-token-demo-webflux-springboot3</module>
+		<module>sa-token-demo-webflux-springboot4</module>
+		<module>sa-token-demo-bug-reproduce</module>
+		<module>sa-token-demo-json-typing-security</module>
+		<module>sa-token-demo-json-typing-security-for-solon</module>
 		<module>sa-token-demo-websocket</module>
 		<module>sa-token-demo-websocket-spring</module>
         <module>sa-token-demo-loveqq-boot</module>

@@ -10,7 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>sa-token-fastjson</name>
     <artifactId>sa-token-fastjson</artifactId>
+    <description>sa-token integrate Fastjson</description>
 
     <dependencies>
         <dependency>
@@ -20,6 +22,11 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-json-test-common</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

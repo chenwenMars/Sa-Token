@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,7 @@ import cn.dev33.satoken.context.model.SaResponse;
 import cn.dev33.satoken.context.model.SaStorage;
 import cn.dev33.satoken.context.model.SaTokenContextModelBox;
 import cn.dev33.satoken.fun.SaRetGenericFunction;
-import cn.dev33.satoken.reactor.model.SaRequestForReactor;
-import cn.dev33.satoken.reactor.model.SaResponseForReactor;
-import cn.dev33.satoken.reactor.model.SaStorageForReactor;
+import cn.dev33.satoken.strategy.SaStrategy;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
@@ -33,15 +31,15 @@ import org.springframework.web.server.ServerWebExchange;
  * @since 1.19.0
  */
 public class SaReactorSyncHolder {
-	
+
 	/**
 	 * 在同步上下文写入 ServerWebExchange
 	 * @param exchange /
 	 */
 	public static void setContext(ServerWebExchange exchange) {
-		SaRequest request = new SaRequestForReactor(exchange.getRequest());
-		SaResponse response = new SaResponseForReactor(exchange.getResponse());
-		SaStorage storage = new SaStorageForReactor(exchange);
+		SaRequest request = SaStrategy.instance.createSaRequest.apply(exchange.getRequest());
+		SaResponse response = SaStrategy.instance.createSaResponse.apply(exchange.getResponse());
+		SaStorage storage = SaStrategy.instance.createSaStorage.apply(exchange);
 		SaManager.getSaTokenContext().setContext(request, response, storage);
 	}
 
@@ -74,5 +72,5 @@ public class SaReactorSyncHolder {
 			clearContext();
 		}
 	}
-	
+
 }

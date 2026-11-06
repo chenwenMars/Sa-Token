@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import cn.dev33.satoken.context.grpc.context.SaTokenGrpcContext;
 import cn.dev33.satoken.context.model.SaRequest;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**

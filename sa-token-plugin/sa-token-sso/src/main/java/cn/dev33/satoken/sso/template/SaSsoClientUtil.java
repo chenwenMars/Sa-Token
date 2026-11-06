@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,7 @@ public class SaSsoClientUtil {
     /**
      * 构建URL：Server端 单点登录授权地址，
      * <br/> 形如：http://sso-server.com/sso/auth?redirectUrl=http://sso-client.com/sso/login?back=http://sso-client.com
+     * <br/> 注意：如果 clientLoginUrl 是编码状态，则无法识别 back 参数，请调用者在编码前自行拼接 back 参数
      * @param clientLoginUrl Client端登录地址
      * @param back 回调路径
      * @return [SSO-Server端-认证地址 ]
@@ -122,6 +123,28 @@ public class SaSsoClientUtil {
      */
     public static SaSsoMessage buildSignoutMessage(Object loginId, SaLogoutParameter logoutParameter) {
         return SaSsoClientProcessor.instance.ssoClientTemplate.buildSignoutMessage(loginId, logoutParameter);
+    }
+
+
+    // ------------------- 单点注销 -------------------
+
+    /**
+     * 指定账号单点注销（向认证中心推送，并由认证中心通知各端下线）
+     *
+     * @param loginId 指定账号（本地 loginId，会按策略转换为认证中心 id）
+     */
+    public static void ssoLogout(Object loginId) {
+        SaSsoClientProcessor.instance.ssoClientTemplate.ssoLogout(loginId);
+    }
+
+    /**
+     * 指定账号单点注销（向认证中心推送，并由认证中心通知各端下线）
+     *
+     * @param loginId 指定账号（本地 loginId，会按策略转换为认证中心 id）
+     * @param logoutParameter 注销参数
+     */
+    public static void ssoLogout(Object loginId, SaLogoutParameter logoutParameter) {
+        SaSsoClientProcessor.instance.ssoClientTemplate.ssoLogout(loginId, logoutParameter);
     }
 
 }

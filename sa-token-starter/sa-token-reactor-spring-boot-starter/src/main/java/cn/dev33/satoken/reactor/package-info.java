@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- * Sa-Token 集成 Reactor 响应式编程的各个组件
+ * Sa-Token 集成 Reactor 响应式编程 (SpringBoot 2.x)
  */
 package cn.dev33.satoken.reactor;

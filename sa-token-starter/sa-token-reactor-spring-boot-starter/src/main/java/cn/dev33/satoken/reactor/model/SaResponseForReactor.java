@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import cn.dev33.satoken.context.model.SaResponse;
  * 对 SaResponse 包装类的实现（Reactor 响应式编程版）
  *
  * @author click33
- * @since 1.19.0
+ * @since 1.34.0
  */
 public class SaResponseForReactor implements SaResponse {
 

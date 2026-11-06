@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -231,8 +231,10 @@ public class SaAloneRedisInject implements EnvironmentAware{
 			// 至此，说明开发者一个 redis 插件也没引入，或者引入的 redis 插件不在 sa-token-alone-redis 的支持范围内
 			throw new SaTokenException("未引入 sa-token-redis-xxx 相关插件，或引入的插件不在 Alone-Redis 支持范围内");
 
+		} catch (SaTokenException e) {
+			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new SaTokenException("Alone-Redis 注入失败", e);
 		}
 	}
 	

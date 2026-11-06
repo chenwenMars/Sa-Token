@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,9 +38,9 @@ public class SaTokenContextDubboUtil {
 	 * @param rpcContext /
 	 */
 	public static void setContext(RpcContext rpcContext) {
-		SaRequest saRequest = new SaRequestForDubbo(RpcContext.getContext());
-		SaResponse saResponse = new SaResponseForDubbo(RpcContext.getContext());
-		SaStorage saStorage = new SaStorageForDubbo(RpcContext.getContext());
+		SaRequest saRequest = new SaRequestForDubbo(rpcContext);
+		SaResponse saResponse = new SaResponseForDubbo(rpcContext);
+		SaStorage saStorage = new SaStorageForDubbo(rpcContext);
 		SaManager.getSaTokenContext().setContext(saRequest, saResponse, saStorage);
 	}
 

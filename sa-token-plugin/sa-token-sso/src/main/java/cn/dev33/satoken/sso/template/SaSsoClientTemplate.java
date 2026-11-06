@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,6 +117,7 @@ public class SaSsoClientTemplate extends SaSsoTemplate {
     /**
      * 构建URL：Server端 单点登录授权地址，
      * <br/> 形如：http://sso-server.com/sso/auth?redirectUrl=http://sso-client.com/sso/login?back=http://sso-client.com
+     * <br/> 注意：如果 clientLoginUrl 是编码状态，则无法识别 back 参数，请调用者在编码前自行拼接 back 参数
      * @param clientLoginUrl Client端登录地址
      * @param back 回调路径
      * @return [SSO-Server端-认证地址 ]
@@ -133,22 +134,33 @@ public class SaSsoClientTemplate extends SaSsoTemplate {
             serverUrl = SaFoxUtil.joinParam(serverUrl, paramName.client, client);
         }
 
-        // 对back地址编码
-        back = (back == null ? "" : back);
-        back = SaFoxUtil.encodeUrl(back);
+        // back 非空时才拼接；空串表示调用方已在 clientLoginUrl 中自行携带 back，或本次跳转不需要 back
+        if(SaFoxUtil.isNotEmpty(back)) {
+            // 对back地址编码
+            back = SaFoxUtil.encodeUrl(back);
 
-        // 开始拼接 sso 统一认证地址，形如：serverAuthUrl = http://xxx.com?redirectUrl=xxx.com?back=xxx.com
+            // 开始拼接 sso 统一认证地址，形如：serverAuthUrl = http://xxx.com?redirectUrl=xxx.com?back=xxx.com
 
-        /*
-         * 部分 Servlet 版本 request.getRequestURL() 返回的 url 带有 query 参数，形如：http://domain.com?id=1，
-         * 如果不加判断会造成最终生成的 serverAuthUrl 带有双 back 参数 ，这个 if 判断正是为了解决此问题
-         */
-        if( ! clientLoginUrl.contains(paramName.back + "=") ) {
-            clientLoginUrl = SaFoxUtil.joinParam(clientLoginUrl, paramName.back, back);
+            /*
+             * 部分 Servlet 版本 request.getRequestURL() 返回的 url 带有 query 参数，形如：http://domain.com?id=1，
+             * 如果不加判断会造成最终生成的 serverAuthUrl 带有双 back 参数 ，这个 if 判断正是为了解决此问题
+             */
+            if( ! containsBackParam(clientLoginUrl) ) {
+                clientLoginUrl = SaFoxUtil.joinParam(clientLoginUrl, paramName.back, back);
+            }
         }
 
         // 返回
         return SaFoxUtil.joinParam(serverUrl, paramName.redirect, clientLoginUrl);
+    }
+
+    /**
+     * clientLoginUrl 是否已携带明文 back 参数（?back= / &back=）
+     */
+    protected boolean containsBackParam(String clientLoginUrl) {
+        String name = paramName.back.toLowerCase();
+        String url = clientLoginUrl.toLowerCase();
+        return url.contains("?" + name + "=") || url.contains("&" + name + "=");
     }
 
 
@@ -220,6 +232,35 @@ public class SaSsoClientTemplate extends SaSsoTemplate {
         message.set(paramName.loginId, loginId);
         message.set(paramName.deviceId, logoutParameter.getDeviceId());
         return message;
+    }
+
+    /**
+     * 指定账号单点注销（向认证中心推送，并由认证中心通知各端下线）
+     *
+     * @param loginId 指定账号（本地 loginId，会按策略转换为认证中心 id）
+     */
+    public void ssoLogout(Object loginId) {
+        ssoLogout(loginId, getStpLogicOrGlobal().createSaLogoutParameter());
+    }
+
+    /**
+     * 指定账号单点注销（向认证中心推送，并由认证中心通知各端下线）
+     *
+     * @param loginId 指定账号（本地 loginId，会按策略转换为认证中心 id）
+     * @param logoutParameter 注销参数
+     */
+    public void ssoLogout(Object loginId, SaLogoutParameter logoutParameter) {
+        Object centerId = strategy.convertLoginIdToCenterId.run(loginId);
+        SaSsoMessage message = buildSignoutMessage(centerId, logoutParameter);
+        SaResult result = pushMessageAsSaResult(message);
+
+        // 如果 sso-server 响应的状态码非200，代表业务失败，将回应的 msg 字段作为异常抛出
+        if(result.getCode() == null || SaResult.CODE_SUCCESS != result.getCode()) {
+            throw new SaSsoException(result.getMsg()).setCode(SaSsoErrorCode.CODE_30006);
+        }
+
+        // 极端场景下，sso-server 中心的单点注销可能并不会通知到当前 client 端，所以这里需要再补一刀
+        getStpLogicOrGlobal().logout(loginId, logoutParameter);
     }
 
 

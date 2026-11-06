@@ -24,6 +24,7 @@ cd sa-token-demo-solon & call mvn clean & cd ..
 cd sa-token-demo-solon-redisson & call mvn clean & cd ..
 cd sa-token-demo-springboot & call mvn clean & cd ..
 cd sa-token-demo-springboot3-redis & call mvn clean & cd ..
+cd sa-token-demo-springboot4-redis & call mvn clean & cd ..
 cd sa-token-demo-springboot-low-version & call mvn clean & cd ..
 cd sa-token-demo-springboot-redis & call mvn clean & cd ..
 cd sa-token-demo-springboot-redisson & call mvn clean & cd ..
@@ -73,15 +74,6 @@ cd ..
 
 
 cd ..
-
-:: test clean 
-
-cd sa-token-test
-call mvn clean
-cd ..
-
-
-
 
 :: 最后打印
 echo;

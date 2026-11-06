@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package cn.dev33.satoken.context.dubbo3.filter;
 
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.context.SaTokenContextDefaultImpl;
 import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaTokenConsts;
@@ -48,9 +47,7 @@ public class SaTokenDubbo3ConsumerFilter implements Filter {
 		}
 		
 		// 1. 调用前，向下传递会话Token
-		if(SaManager.getSaTokenContext() != SaTokenContextDefaultImpl.defaultContext) {
-			RpcContext.getServiceContext().setAttachment(SaTokenConsts.JUST_CREATED, StpUtil.getTokenValueNotCut());
-		}
+		RpcContext.getServiceContext().setAttachment(SaTokenConsts.JUST_CREATED, StpUtil.getTokenValueNotCut());
 
 		// 2. 开始调用 
 		Result invoke = invoker.invoke(invocation);

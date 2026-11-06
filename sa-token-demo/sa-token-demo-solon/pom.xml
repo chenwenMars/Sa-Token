@@ -19,7 +19,7 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.traget>17</maven.compiler.traget>
-		<sa-token.version>1.44.0</sa-token.version>
+		<sa-token.version>1.46.0</sa-token.version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -37,7 +37,7 @@
 			<artifactId>solon.logging.simple</artifactId>
 		</dependency>
 		
-		<!-- Sa-Token 权限认证, 在线文档：https://sa-token.cc/ -->
+		<!-- Sa-Token 权限认证, 在线文档：https://sa-token.com/ -->
 		<dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-solon-plugin</artifactId>

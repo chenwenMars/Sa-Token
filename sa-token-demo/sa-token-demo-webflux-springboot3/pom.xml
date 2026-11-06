@@ -16,7 +16,7 @@
 	
 	<!-- 定义 Sa-Token 版本号 -->
 	<properties>
-		<sa-token.version>1.44.0</sa-token.version>
+		<sa-token.version>1.46.0</sa-token.version>
 	</properties>
 
 	<dependencies>
@@ -27,7 +27,7 @@
 		    <artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 		
-		<!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：https://sa-token.cc/ -->
+		<!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：https://sa-token.com/ -->
 		<dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
@@ -53,7 +53,7 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 
 	</dependencies>
 	

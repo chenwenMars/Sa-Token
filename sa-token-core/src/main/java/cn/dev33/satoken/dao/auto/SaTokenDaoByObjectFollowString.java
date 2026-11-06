@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ public interface SaTokenDaoByObjectFollowString extends SaTokenDaoBySessionFollo
 	 *
 	 * @param key     键名称
 	 * @param object  值
-	 * @param timeout 存活时间（值大于0时限时存储，值=-1时永久存储，值=0或小于-2时不存储）
+	 * @param timeout 存活时间（值大于0时限时存储，值=-1时永久存储，值=0或小于等于-2时不存储）
 	 */
 	@Override
 	default void setObject(String key, Object object, long timeout) {

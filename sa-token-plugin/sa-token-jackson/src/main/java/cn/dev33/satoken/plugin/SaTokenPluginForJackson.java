@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import cn.dev33.satoken.json.SaJsonTemplateDefaultImpl;
 import cn.dev33.satoken.json.SaJsonTemplateForJackson;
 
 /**
- * SaToken 插件安装：JSON 转换器 (jackjson 版)
+ * SaToken 插件安装：JSON 转换器 (Jackson 版)
  *
  * @author click33
  * @since 1.41.0

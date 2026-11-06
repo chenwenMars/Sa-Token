@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,18 +42,3 @@ public class SaTokenContextFilterForReactor implements WebFilter {
 	}
 
 }
-
-
-	/*
-	 * 这种写法有问题：
-			@Override
-			public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-				try {
-					SaReactorSyncHolder.setContext(exchange);
-					return chain.filter(exchange);
-				} finally {
-					SaReactorSyncHolder.clearContext();
-				}
-			}
-		这种写法会先执行 finally，然后进入具体的 Controller
-	 */

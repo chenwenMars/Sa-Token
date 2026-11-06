@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2099 sa-token.cc
+ * Copyright 2020-2099 sa-token.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,9 +55,10 @@ public interface StpInterface {
 	 *
 	 * @param loginId  账号id
 	 * @param service 业务标识符
+	 * @param loginType 账号类型
 	 * @return 描述该账号是否封禁的包装信息对象
 	 */
-	default SaDisableWrapperInfo isDisabled(Object loginId, String service) {
+	default SaDisableWrapperInfo isDisabled(Object loginId, String service, String loginType) {
 		return SaDisableWrapperInfo.createNotDisabled();
 	}
 
